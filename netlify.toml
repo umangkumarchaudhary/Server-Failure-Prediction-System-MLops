@@ -1,15 +1,18 @@
 [build]
   base = "frontend"
   command = "npm run build"
-  publish = ".next"
+  publish = "frontend/.next"
 
 [build.environment]
   NODE_VERSION = "20"
-  NEXT_PUBLIC_API_URL = "https://predictr-api.onrender.com/api/v1"
+  NEXT_PUBLIC_API_URL = "https://sensormind-api.onrender.com/api/v1"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
 
 [[redirects]]
   from = "/api/*"
-  to = "https://predictr-api.onrender.com/api/:splat"
+  to = "https://sensormind-api.onrender.com/api/:splat"
   status = 200
   force = true
 
