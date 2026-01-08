@@ -57,7 +57,7 @@ export default function SignupPage() {
                         <div className="w-16 h-16 rounded-2xl gradient-success flex items-center justify-center mx-auto mb-6">
                             <Activity className="w-8 h-8 text-white" />
                         </div>
-                        <h1 className="text-2xl font-bold mb-2">Welcome to PredictrAI!</h1>
+                        <h1 className="text-2xl font-bold mb-2">Welcome to SensorMind!</h1>
                         <p className="text-muted-foreground mb-6">
                             Save your API key below — it won&apos;t be shown again.
                         </p>
@@ -85,7 +85,7 @@ export default function SignupPage() {
                         <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center">
                             <Activity className="w-6 h-6 text-white" />
                         </div>
-                        <span className="text-2xl font-bold">PredictrAI</span>
+                        <span className="text-2xl font-bold">SensorMind</span>
                     </Link>
                     <h1 className="text-3xl font-bold mb-2">Create your account</h1>
                     <p className="text-muted-foreground">Start predicting failures in minutes</p>

@@ -6,7 +6,7 @@ import { Providers } from "@/components/providers";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-    title: "PredictrAI - Universal Predictive Maintenance",
+    title: "SensorMind - AI-Powered Predictive Maintenance",
     description: "AI-powered predictive maintenance platform for any industry",
 };
 

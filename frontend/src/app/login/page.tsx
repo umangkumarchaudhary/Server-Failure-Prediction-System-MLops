@@ -55,7 +55,7 @@ export default function LoginPage() {
                         <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center">
                             <Activity className="w-6 h-6 text-white" />
                         </div>
-                        <span className="text-2xl font-bold">PredictrAI</span>
+                        <span className="text-2xl font-bold">SensorMind</span>
                     </Link>
                     <h1 className="text-3xl font-bold mb-2">Welcome back</h1>
                     <p className="text-muted-foreground">Sign in to your account</p>

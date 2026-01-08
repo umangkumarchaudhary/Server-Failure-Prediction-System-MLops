@@ -1,60 +1,116 @@
-# PredictrAI
+# 🧠 SensorMind
 
-**Universal Predictive Maintenance SaaS** - A 2026-ready AI platform for anomaly detection, failure prediction, and intelligent maintenance automation.
+**AI-Powered Predictive Maintenance Platform**
 
-![Status](https://img.shields.io/badge/status-in%20development-yellow)
-![License](https://img.shields.io/badge/license-MIT-blue)
+Prevent equipment failures before they happen with intelligent anomaly detection, RUL forecasting, and an autonomous AI maintenance agent.
 
-## Features
+---
 
-- 🔍 **Explainable Anomaly Detection** - SHAP-powered insights, not black boxes
-- 🤖 **AI Maintenance Copilot** - Automated incident drafting and ticket creation
-- 📈 **RUL Forecasting** - Predict remaining useful life with transformers
-- 📝 **Log Analysis** - NLP-based error clustering and root-cause extraction
-- 🏢 **Multi-Tenant** - Secure data isolation for any industry
-- 🔄 **Living MLOps** - Drift detection and auto-retraining
+## ✨ Key Features
 
-## Quick Start
+| Feature | Technology |
+|---------|------------|
+| **Anomaly Detection** | Isolation Forest + SHAP Explainability |
+| **RUL Forecasting** | LSTM Neural Network with Confidence Intervals |
+| **Log Analysis** | HDBSCAN + Sentence Transformers |
+| **AI Copilot Agent** | Observe-Reason-Act with LLM (OpenAI/Ollama) |
+| **Drift Detection** | Evidently for Data & Concept Drift |
+| **MLOps** | MLflow Experiment Tracking |
+| **Notifications** | Slack, Teams, Email, Webhooks |
+| **Ticket Integration** | Jira, ServiceNow |
+
+---
+
+## 🛠️ Tech Stack
+
+### ML/AI
+- Isolation Forest, LSTM (PyTorch), HDBSCAN
+- SHAP, Evidently, MLflow
+- AI Agent with LLM integration
+
+### Backend
+- FastAPI, SQLAlchemy (Async), PostgreSQL
+- Multi-tenant SaaS architecture
+- JWT Auth, API Key ingestion
+
+### Frontend
+- Next.js 14, TypeScript, TailwindCSS
+- Real-time dashboards, Animated demo
+
+### Deployment
+- Render (Backend), Netlify (Frontend), Supabase (DB)
+- Docker, Alembic migrations
+
+---
+
+## 🚀 Quick Start
 
 ```bash
-# Clone the repo
-git clone <repo-url>
-cd predictAI
-
-# Start with Docker
+# Start infrastructure
 docker-compose up -d
-
-# Or run manually:
 
 # Backend
 cd backend
-python -m venv venv
-.\venv\Scripts\activate  # Windows
-pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000
+pip install -e ".[dev]"
+alembic upgrade head
+uvicorn app.main:app --reload
 
-# Frontend  
+# Frontend
 cd frontend
 npm install
 npm run dev
 ```
 
-## Documentation
+**Access:**
+- Frontend: http://localhost:3000
+- API Docs: http://localhost:8000/docs
+- MLflow: http://localhost:5000
 
-- [Implementation Plan](./implementation_plan.md) - Architecture & design
-- [Task Tracker](./task.md) - Development progress
-- [Help Reference](./helpreference.md) - 2026 AI trends guide
+---
 
-## Tech Stack
+## 📁 Project Structure
 
-| Layer | Tech |
-|-------|------|
-| Frontend | Next.js, TypeScript, shadcn/ui, Tailwind |
-| Backend | FastAPI, Python 3.11+ |
-| Database | PostgreSQL |
-| ML | PyTorch, Transformers, scikit-learn, SHAP |
-| MLOps | MLflow, Evidently |
+```
+sensormind/
+├── backend/          # FastAPI backend
+│   ├── app/          # API endpoints, models, schemas
+│   ├── alembic/      # Database migrations
+│   └── tests/        # Test suite
+├── ml/               # ML models & agent
+│   ├── models/       # Anomaly, RUL, Log analyzers
+│   ├── agent/        # AI Copilot
+│   ├── pipelines/    # Training & inference
+│   └── services/     # MLService orchestration
+├── frontend/         # Next.js frontend
+└── docker-compose.yml
+```
 
-## License
+---
 
-MIT
+## 📊 API Endpoints
+
+| Endpoint | Description |
+|----------|-------------|
+| `POST /auth/signup` | Register tenant + user |
+| `POST /ingest/metrics` | Stream sensor data |
+| `GET /predictions/asset/{id}` | Get predictions |
+| `POST /copilot/chat` | Chat with AI agent |
+| `GET /dashboard/stats` | Dashboard data |
+
+---
+
+## 🌐 Live Demo
+
+- **Demo Page**: Experience all features with live animations
+- **API Docs**: Interactive Swagger documentation
+- **GitHub**: Full source code
+
+---
+
+## 📜 License
+
+MIT License - Build amazing things!
+
+---
+
+**Built with ❤️ for the ML community**

@@ -19,9 +19,9 @@ export default function Home() {
                     <div className="flex justify-between items-center h-16">
                         <div className="flex items-center gap-2">
                             <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
-                                <Activity className="w-5 h-5 text-white" />
+                                <Brain className="w-5 h-5 text-white" />
                             </div>
-                            <span className="text-xl font-bold">PredictrAI</span>
+                            <span className="text-xl font-bold">SensorMind</span>
                         </div>
                         <div className="flex items-center gap-4">
                             <Link
@@ -215,12 +215,12 @@ export default function Home() {
                 <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
                     <div className="flex items-center gap-2">
                         <div className="w-6 h-6 rounded gradient-primary flex items-center justify-center">
-                            <Activity className="w-4 h-4 text-white" />
+                            <Brain className="w-4 h-4 text-white" />
                         </div>
-                        <span className="font-semibold">PredictrAI</span>
+                        <span className="font-semibold">SensorMind</span>
                     </div>
                     <p className="text-sm text-muted-foreground">
-                        © 2026 PredictrAI. All rights reserved.
+                        © 2026 SensorMind. All rights reserved.
                     </p>
                 </div>
             </footer>

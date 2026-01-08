@@ -1,0 +1,21 @@
+[build]
+  base = "frontend"
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "20"
+  NEXT_PUBLIC_API_URL = "https://predictr-api.onrender.com/api/v1"
+
+[[redirects]]
+  from = "/api/*"
+  to = "https://predictr-api.onrender.com/api/:splat"
+  status = 200
+  force = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

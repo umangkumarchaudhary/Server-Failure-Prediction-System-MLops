@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     )
     
     # App
-    PROJECT_NAME: str = "PredictrAI"
+    PROJECT_NAME: str = "SensorMind"
     VERSION: str = "0.1.0"
     DEBUG: bool = False
     API_V1_PREFIX: str = "/api/v1"

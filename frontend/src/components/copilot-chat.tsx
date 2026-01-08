@@ -73,7 +73,7 @@ export default function CopilotChat({ assetId }: { assetId?: string }) {
                 </div>
                 <div>
                     <h3 className="font-semibold">AI Maintenance Copilot</h3>
-                    <p className="text-xs text-muted-foreground">Powered by PredictrAI</p>
+                    <p className="text-xs text-muted-foreground">Powered by SensorMind</p>
                 </div>
                 <div className="ml-auto flex items-center gap-1 px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-500 text-xs">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -90,8 +90,8 @@ export default function CopilotChat({ assetId }: { assetId?: string }) {
                     >
                         <div
                             className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${message.role === "user"
-                                    ? "bg-primary text-primary-foreground"
-                                    : "bg-muted"
+                                ? "bg-primary text-primary-foreground"
+                                : "bg-muted"
                                 }`}
                         >
                             {message.role === "user" ? (
@@ -102,15 +102,15 @@ export default function CopilotChat({ assetId }: { assetId?: string }) {
                         </div>
                         <div
                             className={`max-w-[80%] p-3 rounded-xl ${message.role === "user"
-                                    ? "bg-primary text-primary-foreground"
-                                    : "bg-muted"
+                                ? "bg-primary text-primary-foreground"
+                                : "bg-muted"
                                 }`}
                         >
                             <p className="text-sm whitespace-pre-wrap">{message.content}</p>
                             <p
                                 className={`text-xs mt-1 ${message.role === "user"
-                                        ? "text-primary-foreground/70"
-                                        : "text-muted-foreground"
+                                    ? "text-primary-foreground/70"
+                                    : "text-muted-foreground"
                                     }`}
                             >
                                 {message.timestamp.toLocaleTimeString()}

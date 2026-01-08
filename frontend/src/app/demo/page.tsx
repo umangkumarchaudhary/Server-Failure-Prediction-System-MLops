@@ -343,7 +343,7 @@ export default function DemoPage() {
                     </div>
 
                     <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent animate-gradient">
-                        PredictrAI in Action
+                        SensorMind in Action
                     </h1>
 
                     <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-12">
@@ -500,20 +500,20 @@ export default function DemoPage() {
                                 <div
                                     key={index}
                                     className={`p-4 rounded-xl border ${alert.severity === "critical"
-                                            ? "border-red-500/30 bg-red-500/5"
-                                            : alert.severity === "warning"
-                                                ? "border-amber-500/30 bg-amber-500/5"
-                                                : "border-blue-500/30 bg-blue-500/5"
+                                        ? "border-red-500/30 bg-red-500/5"
+                                        : alert.severity === "warning"
+                                            ? "border-amber-500/30 bg-amber-500/5"
+                                            : "border-blue-500/30 bg-blue-500/5"
                                         } animate-fade-in`}
                                     style={{ animationDelay: `${index * 100}ms` }}
                                 >
                                     <div className="flex items-center gap-3">
                                         <AlertTriangle
                                             className={`w-5 h-5 ${alert.severity === "critical"
-                                                    ? "text-red-500"
-                                                    : alert.severity === "warning"
-                                                        ? "text-amber-500"
-                                                        : "text-blue-500"
+                                                ? "text-red-500"
+                                                : alert.severity === "warning"
+                                                    ? "text-amber-500"
+                                                    : "text-blue-500"
                                                 }`}
                                         />
                                         <div className="flex-1">
@@ -690,7 +690,7 @@ export default function DemoPage() {
                         Ready to Transform Your Maintenance?
                     </h2>
                     <p className="text-xl text-muted-foreground mb-12">
-                        Join thousands of companies using PredictrAI to prevent downtime and reduce costs
+                        Join thousands of companies using SensorMind to prevent downtime and reduce costs
                     </p>
                     <div className="flex flex-wrap justify-center gap-4">
                         <Link
@@ -703,10 +703,9 @@ export default function DemoPage() {
                 </div>
             </section>
 
-            {/* Footer */}
             <footer className="py-12 px-4 border-t border-border">
                 <div className="max-w-6xl mx-auto text-center text-muted-foreground">
-                    <p>© 2026 PredictrAI. Universal Predictive Maintenance Platform.</p>
+                    <p>© 2026 SensorMind. AI-Powered Predictive Maintenance Platform.</p>
                 </div>
             </footer>
 
