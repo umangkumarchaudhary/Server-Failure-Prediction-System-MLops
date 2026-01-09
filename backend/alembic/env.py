@@ -16,9 +16,21 @@ from app.core.config import settings
 
 config = context.config
 
-# Set URL from settings if not in alembic.ini
+
+def get_sync_database_url(url: str) -> str:
+    """Convert database URL to sync format for Alembic."""
+    # Remove asyncpg if present
+    url = url.replace("+asyncpg", "")
+    # Convert postgres:// to postgresql://
+    if url.startswith("postgres://"):
+        url = url.replace("postgres://", "postgresql://", 1)
+    return url
+
+
+# Set URL from settings
 if settings.DATABASE_URL:
-    config.set_main_option("sqlalchemy.url", settings.DATABASE_URL.replace("+asyncpg", ""))
+    sync_url = get_sync_database_url(settings.DATABASE_URL)
+    config.set_main_option("sqlalchemy.url", sync_url)
 
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
@@ -47,23 +59,17 @@ def do_run_migrations(connection: Connection) -> None:
         context.run_migrations()
 
 
-async def run_async_migrations() -> None:
-    """Run migrations in async mode."""
-    connectable = async_engine_from_config(
-        config.get_section(config.config_ini_section, {}),
-        prefix="sqlalchemy.",
-        poolclass=pool.NullPool,
-    )
-
-    async with connectable.connect() as connection:
-        await connection.run_sync(do_run_migrations)
-
-    await connectable.dispose()
-
-
 def run_migrations_online() -> None:
-    """Run migrations in 'online' mode."""
-    asyncio.run(run_async_migrations())
+    """Run migrations in 'online' mode using sync engine."""
+    from sqlalchemy import create_engine
+    
+    url = config.get_main_option("sqlalchemy.url")
+    connectable = create_engine(url, poolclass=pool.NullPool)
+
+    with connectable.connect() as connection:
+        do_run_migrations(connection)
+    
+    connectable.dispose()
 
 
 if context.is_offline_mode():
