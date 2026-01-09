@@ -1,7 +1,8 @@
 """
 Application configuration using Pydantic Settings.
 """
-from typing import List
+from typing import List, Union
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -31,14 +32,22 @@ class Settings(BaseSettings):
     # Redis
     REDIS_URL: str = "redis://localhost:6379/0"
     
-    # CORS
-    CORS_ORIGINS: List[str] = ["http://localhost:3000", "http://127.0.0.1:3000"]
+    # CORS - accepts comma-separated string or list
+    CORS_ORIGINS: Union[str, List[str]] = "http://localhost:3000"
+    
+    @field_validator("CORS_ORIGINS", mode="before")
+    @classmethod
+    def parse_cors_origins(cls, v):
+        """Parse CORS origins from comma-separated string or list."""
+        if isinstance(v, str):
+            return [origin.strip() for origin in v.split(",")]
+        return v
     
     # MLflow
     MLFLOW_TRACKING_URI: str = "http://localhost:5000"
     
     # OpenAI (for AI Copilot)
     OPENAI_API_KEY: str = ""
-    
+
 
 settings = Settings()
