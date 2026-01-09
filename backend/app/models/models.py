@@ -55,7 +55,7 @@ class Asset(Base):
     type: Mapped[str] = mapped_column(String(100), nullable=False)  # machine, server, turbine, vehicle
     tags: Mapped[dict] = mapped_column(JSON, default=list)
     location: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
-    metadata: Mapped[dict] = mapped_column(JSON, default=dict)
+    extra_data: Mapped[dict] = mapped_column(JSON, default=dict)  # renamed from 'metadata' (reserved by SQLAlchemy)
     health_score: Mapped[Optional[float]] = mapped_column(Float, nullable=True)  # 0-100
     risk_level: Mapped[str] = mapped_column(String(20), default="normal")  # normal, warning, critical
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)

@@ -55,7 +55,7 @@ def upgrade() -> None:
         sa.Column('asset_type', sa.String(100), nullable=False),
         sa.Column('description', sa.Text, nullable=True),
         sa.Column('location', sa.String(255), nullable=True),
-        sa.Column('metadata', postgresql.JSONB, default={}),
+        sa.Column('extra_data', postgresql.JSONB, default={}),
         sa.Column('tags', postgresql.ARRAY(sa.String), default=[]),
         sa.Column('health_score', sa.Float, default=100.0),
         sa.Column('status', sa.String(50), default='active'),
@@ -73,7 +73,7 @@ def upgrade() -> None:
         sa.Column('metric_name', sa.String(100), nullable=False),
         sa.Column('metric_value', sa.Float, nullable=False),
         sa.Column('unit', sa.String(50), nullable=True),
-        sa.Column('metadata', postgresql.JSONB, default={}),
+        sa.Column('extra_data', postgresql.JSONB, default={}),
     )
     op.create_index('ix_metrics_asset_time', 'metrics', ['asset_id', 'timestamp'])
     op.create_index('ix_metrics_tenant_time', 'metrics', ['tenant_id', 'timestamp'])
@@ -88,7 +88,7 @@ def upgrade() -> None:
         sa.Column('level', sa.String(20), nullable=False),
         sa.Column('message', sa.Text, nullable=False),
         sa.Column('source', sa.String(255), nullable=True),
-        sa.Column('metadata', postgresql.JSONB, default={}),
+        sa.Column('extra_data', postgresql.JSONB, default={}),
     )
     op.create_index('ix_logs_asset_time', 'logs', ['asset_id', 'timestamp'])
     
@@ -104,7 +104,7 @@ def upgrade() -> None:
         sa.Column('confidence', sa.Float, nullable=True),
         sa.Column('model_version', sa.String(50), nullable=True),
         sa.Column('explanation', postgresql.JSONB, default={}),
-        sa.Column('metadata', postgresql.JSONB, default={}),
+        sa.Column('extra_data', postgresql.JSONB, default={}),
     )
     op.create_index('ix_predictions_asset_time', 'predictions', ['asset_id', 'timestamp'])
     
@@ -122,7 +122,7 @@ def upgrade() -> None:
         sa.Column('acknowledged_by', postgresql.UUID(as_uuid=True), sa.ForeignKey('users.id', ondelete='SET NULL'), nullable=True),
         sa.Column('acknowledged_at', sa.DateTime(timezone=True), nullable=True),
         sa.Column('resolved_at', sa.DateTime(timezone=True), nullable=True),
-        sa.Column('metadata', postgresql.JSONB, default={}),
+        sa.Column('extra_data', postgresql.JSONB, default={}),
         sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now()),
     )
     op.create_index('ix_alerts_tenant_status', 'alerts', ['tenant_id', 'status'])
@@ -143,7 +143,7 @@ def upgrade() -> None:
         sa.Column('external_ticket_url', sa.String(500), nullable=True),
         sa.Column('assigned_to', postgresql.UUID(as_uuid=True), sa.ForeignKey('users.id', ondelete='SET NULL'), nullable=True),
         sa.Column('created_by', postgresql.UUID(as_uuid=True), sa.ForeignKey('users.id', ondelete='SET NULL'), nullable=True),
-        sa.Column('metadata', postgresql.JSONB, default={}),
+        sa.Column('extra_data', postgresql.JSONB, default={}),
         sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now()),
         sa.Column('updated_at', sa.DateTime(timezone=True), onupdate=sa.func.now()),
         sa.Column('resolved_at', sa.DateTime(timezone=True), nullable=True),
