@@ -1,4 +1,5 @@
 """Models module exports."""
+from app.core.database import Base
 from app.models.models import (
     Tenant,
     User,
@@ -11,6 +12,7 @@ from app.models.models import (
 )
 
 __all__ = [
+    "Base",
     "Tenant",
     "User",
     "Asset",
