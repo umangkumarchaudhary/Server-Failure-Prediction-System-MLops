@@ -8,11 +8,16 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy backend
-COPY backend/ ./
+# Copy ML models and backend
+COPY ml/ ./ml/
+COPY backend/ ./backend/
 
 # Install Python dependencies
+WORKDIR /app/backend
 RUN pip install --no-cache-dir -e .
+
+# Add ml folder to Python path
+ENV PYTHONPATH="/app:$PYTHONPATH"
 
 # Expose port
 EXPOSE 8000
