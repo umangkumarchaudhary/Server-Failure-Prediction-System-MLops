@@ -432,6 +432,7 @@ NEXT_PUBLIC_API_URL=https://your-backend.onrender.com/api/v1
 - [x] Real-time alerting (Slack, Email, Webhooks)
 - [x] XAI with SHAP explanations
 - [x] Drift detection & retraining triggers
+- [x] MCP (Model Context Protocol) Server
 - [ ] GPU-accelerated inference
 - [ ] Kubernetes deployment
 - [ ] Mobile app
