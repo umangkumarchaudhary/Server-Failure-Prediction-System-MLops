@@ -376,7 +376,10 @@ class RULForecaster:
     @classmethod
     def load(cls, path: str, device: Optional[str] = None) -> "RULForecaster":
         """Load model from disk."""
-        model_data = torch.load(path, map_location="cpu")
+        # The checkpoint includes trusted Python objects such as scalers, so
+        # we explicitly opt into full deserialization for compatibility with
+        # PyTorch 2.6+'s stricter default.
+        model_data = torch.load(path, map_location="cpu", weights_only=False)
         
         forecaster = cls(
             sequence_length=model_data["sequence_length"],

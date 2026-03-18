@@ -1,15 +1,21 @@
 """
 Pytest fixtures and configuration.
 """
-import pytest
 import asyncio
 from datetime import datetime
-from typing import Generator, AsyncGenerator
+from pathlib import Path
+import sys
 from unittest.mock import MagicMock, AsyncMock
 from uuid import uuid4
 
 import pandas as pd
 import numpy as np
+import pytest
+
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 # For async tests
 @pytest.fixture(scope="session")
@@ -60,7 +66,7 @@ def mock_user(sample_tenant_id, sample_user_id):
     user.id = sample_user_id
     user.tenant_id = sample_tenant_id
     user.email = "test@example.com"
-    user.full_name = "Test User"
+    user.name = "Test User"
     user.role = "admin"
     user.is_active = True
     return user

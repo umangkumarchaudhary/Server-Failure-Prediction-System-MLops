@@ -40,9 +40,12 @@ export const assetsApi = {
     list: (params?: { skip?: number; limit?: number; type?: string; risk_level?: string }) =>
         api.get("/assets", { params }),
     get: (id: string) => api.get(`/assets/${id}`),
-    create: (data: { name: string; type: string; tags?: string[]; location?: string }) =>
+    create: (data: { name: string; type: string; tags?: string[]; location?: string; metadata?: Record<string, unknown> }) =>
         api.post("/assets", data),
-    update: (id: string, data: Partial<{ name: string; type: string; tags: string[]; location: string }>) =>
+    update: (
+        id: string,
+        data: Partial<{ name: string; type: string; tags: string[]; location: string; metadata: Record<string, unknown> }>
+    ) =>
         api.put(`/assets/${id}`, data),
     delete: (id: string) => api.delete(`/assets/${id}`),
 };
@@ -66,6 +69,25 @@ export const alertsApi = {
 // Dashboard
 export const dashboardApi = {
     getStats: () => api.get("/dashboard/stats"),
+};
+
+// ML Health
+export const mlHealthApi = {
+    getSummary: () => api.get("/monitor/summary"),
+};
+
+// Telemetry onboarding
+export const telemetryApi = {
+    getSignals: () => api.get("/monitor/signals"),
+    getAdapters: () => api.get("/monitor/adapters"),
+};
+
+// Early warning risk engine
+export const riskApi = {
+    getOverview: (params?: { limit?: number; hours?: number }) => api.get("/monitor/risks", { params }),
+    getAsset: (assetId: string, params?: { hours?: number }) => api.get(`/monitor/risks/${assetId}`, { params }),
+    getChanges: (params?: { limit?: number; hours?: number; asset_id?: string }) => api.get("/monitor/changes", { params }),
+    syncAlerts: (data?: { asset_ids?: string[]; hours?: number }) => api.post("/monitor/risks/sync-alerts", data ?? {}),
 };
 
 export default api;

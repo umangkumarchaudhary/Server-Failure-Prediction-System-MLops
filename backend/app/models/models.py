@@ -27,6 +27,11 @@ class Tenant(Base):
     users: Mapped[List["User"]] = relationship("User", back_populates="tenant", cascade="all, delete-orphan")
     assets: Mapped[List["Asset"]] = relationship("Asset", back_populates="tenant", cascade="all, delete-orphan")
     alerts: Mapped[List["Alert"]] = relationship("Alert", back_populates="tenant", cascade="all, delete-orphan")
+    change_events: Mapped[List["ChangeEvent"]] = relationship(
+        "ChangeEvent",
+        back_populates="tenant",
+        cascade="all, delete-orphan",
+    )
 
 
 class User(Base):
@@ -66,6 +71,11 @@ class Asset(Base):
     logs: Mapped[List["Log"]] = relationship("Log", back_populates="asset", cascade="all, delete-orphan")
     predictions: Mapped[List["Prediction"]] = relationship("Prediction", back_populates="asset", cascade="all, delete-orphan")
     alerts: Mapped[List["Alert"]] = relationship("Alert", back_populates="asset", cascade="all, delete-orphan")
+    change_events: Mapped[List["ChangeEvent"]] = relationship(
+        "ChangeEvent",
+        back_populates="asset",
+        cascade="all, delete-orphan",
+    )
     
     __table_args__ = (
         Index("idx_assets_tenant", "tenant_id"),
@@ -171,3 +181,32 @@ class Incident(Base):
     resolution: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     feedback: Mapped[Optional[dict]] = mapped_column(JSON, nullable=True)  # Operator feedback
     embedding: Mapped[Optional[list]] = mapped_column(JSON, nullable=True)  # For similarity search
+
+
+class ChangeEvent(Base):
+    """Recorded deploy, config, runtime, or dependency change for correlation."""
+    __tablename__ = "change_events"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    tenant_id: Mapped[str] = mapped_column(UUID(as_uuid=False), ForeignKey("tenants.id", ondelete="CASCADE"))
+    asset_id: Mapped[Optional[str]] = mapped_column(
+        UUID(as_uuid=False),
+        ForeignKey("assets.id", ondelete="CASCADE"),
+        nullable=True,
+    )
+    timestamp: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.utcnow)
+    change_type: Mapped[str] = mapped_column(String(50), nullable=False)
+    title: Mapped[str] = mapped_column(String(255), nullable=False)
+    summary: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    source: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    severity: Mapped[str] = mapped_column(String(20), default="medium")
+    version: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    extra_data: Mapped[dict] = mapped_column(JSON, default=dict)
+
+    tenant: Mapped["Tenant"] = relationship("Tenant", back_populates="change_events")
+    asset: Mapped[Optional["Asset"]] = relationship("Asset", back_populates="change_events")
+
+    __table_args__ = (
+        Index("idx_change_events_tenant_time", "tenant_id", "timestamp"),
+        Index("idx_change_events_asset_time", "asset_id", "timestamp"),
+    )

@@ -9,6 +9,7 @@ from app.models.models import (
     Prediction,
     Alert,
     Incident,
+    ChangeEvent,
 )
 
 __all__ = [
@@ -21,4 +22,5 @@ __all__ = [
     "Prediction",
     "Alert",
     "Incident",
+    "ChangeEvent",
 ]

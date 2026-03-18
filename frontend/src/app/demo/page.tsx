@@ -294,6 +294,38 @@ function FeatureCard({
     );
 }
 
+function StatCard({
+    label,
+    value,
+    suffix,
+    prefix,
+    decimals,
+    delay,
+}: {
+    label: string;
+    value: number;
+    suffix: string;
+    prefix?: string;
+    decimals?: number;
+    delay: number;
+}) {
+    const { count, ref } = useCountUp(value, 2000 + delay);
+
+    return (
+        <div
+            ref={ref}
+            className="text-center p-6 rounded-2xl bg-background border border-border"
+        >
+            <div className="text-4xl md:text-5xl font-bold gradient-text mb-2">
+                {prefix}
+                {decimals ? count.toFixed(decimals) : count}
+                {suffix}
+            </div>
+            <div className="text-muted-foreground">{label}</div>
+        </div>
+    );
+}
+
 export default function DemoPage() {
     const liveData = useLiveData();
     const stats = [
@@ -372,23 +404,17 @@ export default function DemoPage() {
             <section className="py-16 px-4 bg-card/50">
                 <div className="max-w-6xl mx-auto">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                        {stats.map((stat, index) => {
-                            const { count, ref } = useCountUp(stat.value, 2000 + index * 200);
-                            return (
-                                <div
-                                    key={index}
-                                    ref={ref}
-                                    className="text-center p-6 rounded-2xl bg-background border border-border"
-                                >
-                                    <div className="text-4xl md:text-5xl font-bold gradient-text mb-2">
-                                        {stat.prefix}
-                                        {stat.decimals ? count.toFixed(stat.decimals) : count}
-                                        {stat.suffix}
-                                    </div>
-                                    <div className="text-muted-foreground">{stat.label}</div>
-                                </div>
-                            );
-                        })}
+                        {stats.map((stat, index) => (
+                            <StatCard
+                                key={stat.label}
+                                label={stat.label}
+                                value={stat.value}
+                                suffix={stat.suffix}
+                                prefix={stat.prefix}
+                                decimals={stat.decimals}
+                                delay={index * 200}
+                            />
+                        ))}
                     </div>
                 </div>
             </section>

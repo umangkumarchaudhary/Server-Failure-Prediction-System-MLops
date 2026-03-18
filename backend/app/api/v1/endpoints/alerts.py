@@ -34,21 +34,26 @@ async def list_alerts(
     query = query.order_by(Alert.triggered_at.desc()).offset(skip).limit(limit)
     result = await db.execute(query)
     alerts = result.scalars().all()
-    
-    # Enrich with asset names
+
+    asset_ids = list({str(alert.asset_id) for alert in alerts})
+    asset_name_map = {}
+    if asset_ids:
+        asset_result = await db.execute(
+            select(Asset.id, Asset.name).where(Asset.id.in_(asset_ids))
+        )
+        asset_name_map = {str(row.id): row.name for row in asset_result.all()}
+
     response = []
     for alert in alerts:
-        asset_result = await db.execute(select(Asset.name).where(Asset.id == alert.asset_id))
-        asset_name = asset_result.scalar_one_or_none()
-        
         response.append(AlertResponse(
             id=alert.id,
             asset_id=alert.asset_id,
-            asset_name=asset_name,
+            asset_name=asset_name_map.get(str(alert.asset_id)),
             triggered_at=alert.triggered_at,
             severity=alert.severity,
             message=alert.message,
             agent_suggestion=alert.agent_suggestion,
+            source=alert.channel,
             status=alert.status,
         ))
     
@@ -88,6 +93,7 @@ async def get_alert(
         severity=alert.severity,
         message=alert.message,
         agent_suggestion=alert.agent_suggestion,
+        source=alert.channel,
         status=alert.status,
     )
 
@@ -130,5 +136,6 @@ async def update_alert(
         severity=alert.severity,
         message=alert.message,
         agent_suggestion=alert.agent_suggestion,
+        source=alert.channel,
         status=alert.status,
     )

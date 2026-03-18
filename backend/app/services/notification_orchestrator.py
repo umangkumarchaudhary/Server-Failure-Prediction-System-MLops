@@ -89,6 +89,34 @@ class NotificationOrchestrator:
                     results.update(result)
         
         return results
+
+    async def notify_alert_resolved(
+        self,
+        tenant_id: str,
+        alert: Dict[str, Any],
+    ) -> Dict[str, Any]:
+        """Send webhook notifications when an alert is resolved."""
+        return await self._send_webhook(
+            tenant_id,
+            WebhookEventType.ALERT_RESOLVED,
+            alert,
+        )
+
+    async def notify_asset_critical(
+        self,
+        tenant_id: str,
+        asset_id: str,
+        payload: Dict[str, Any],
+    ) -> Dict[str, Any]:
+        """Send a dedicated critical-asset webhook event."""
+        return await self._send_webhook(
+            tenant_id,
+            WebhookEventType.ASSET_CRITICAL,
+            {
+                "asset_id": asset_id,
+                **payload,
+            },
+        )
     
     async def notify_incident(
         self,

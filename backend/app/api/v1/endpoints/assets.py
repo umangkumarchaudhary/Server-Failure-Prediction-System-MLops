@@ -51,7 +51,7 @@ async def create_asset(
         type=asset_in.type,
         tags=asset_in.tags,
         location=asset_in.location,
-        metadata=asset_in.metadata,
+        extra_data=asset_in.metadata,
     )
     db.add(asset)
     await db.flush()
@@ -108,6 +108,8 @@ async def update_asset(
     
     # Update fields
     update_data = asset_in.model_dump(exclude_unset=True)
+    if "metadata" in update_data:
+        update_data["extra_data"] = update_data.pop("metadata")
     for field, value in update_data.items():
         setattr(asset, field, value)
     

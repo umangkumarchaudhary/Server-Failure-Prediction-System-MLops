@@ -1,12 +1,10 @@
-"""
-API Unit Tests - Test endpoints with mocked dependencies.
-"""
-import pytest
+"""API unit tests for stable backend contracts."""
 from datetime import datetime
-from unittest.mock import AsyncMock, MagicMock, patch
-from uuid import uuid4
 import os
 import sys
+from uuid import uuid4
+
+import pytest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
@@ -17,14 +15,14 @@ class TestAuthEndpoints:
     @pytest.mark.unit
     def test_password_hashing(self):
         """Test password hashing and verification."""
-        from app.core.security import get_password_hash, verify_password
+        from app.core.security import hash_password, verify_password
         
         password = "secure_password_123"
-        hashed = get_password_hash(password)
+        hashed = hash_password(password)
         
         assert hashed != password
-        assert verify_password(password, hashed) == True
-        assert verify_password("wrong_password", hashed) == False
+        assert verify_password(password, hashed) is True
+        assert verify_password("wrong_password", hashed) is False
     
     @pytest.mark.unit
     def test_jwt_token_creation(self):
@@ -45,9 +43,9 @@ class TestAuthEndpoints:
         api_key = generate_api_key()
         hashed = hash_api_key(api_key)
         
-        assert len(api_key) == 64
+        assert api_key.startswith("pk_")
         assert api_key != hashed
-        # Same key should hash the same
+        assert len(hashed) == 64
         assert hash_api_key(api_key) == hashed
 
 
@@ -156,17 +154,16 @@ class TestSchemaValidation:
     """Tests for Pydantic schema validation."""
     
     @pytest.mark.unit
-    def test_metric_ingest_schema(self):
+    def test_metric_data_point_schema(self):
         """Test metric ingestion schema validation."""
-        from app.schemas.schemas import MetricIngest
+        from app.schemas.schemas import MetricDataPoint
         
         # Valid metric
-        metric = MetricIngest(
+        metric = MetricDataPoint(
             asset_id=str(uuid4()),
             timestamp=datetime.utcnow(),
             metric_name="temperature",
             metric_value=65.5,
-            unit="celsius"
         )
         
         assert metric.metric_name == "temperature"
@@ -179,24 +176,36 @@ class TestSchemaValidation:
         
         asset = AssetCreate(
             name="Test Pump",
-            asset_type="pump",
-            description="Test description",
+            type="pump",
             location="Building A",
             metadata={"manufacturer": "TestCo"},
             tags=["critical", "production"]
         )
         
         assert asset.name == "Test Pump"
-        assert asset.asset_type == "pump"
+        assert asset.type == "pump"
         assert "manufacturer" in asset.metadata
+
+    @pytest.mark.unit
+    def test_asset_create_schema_accepts_extra_data_alias(self):
+        """Test asset creation schema accepts persisted JSON field alias."""
+        from app.schemas.schemas import AssetCreate
+
+        asset = AssetCreate(
+            name="Backend API",
+            type="service",
+            extra_data={"runtime": "python"},
+        )
+
+        assert asset.metadata == {"runtime": "python"}
     
     @pytest.mark.unit
     def test_alert_status_validation(self):
         """Test alert status enum validation."""
-        from app.schemas.schemas import AlertStatusUpdate
+        from app.schemas.schemas import AlertUpdate
         
         # Valid status
-        update = AlertStatusUpdate(status="acknowledged")
+        update = AlertUpdate(status="acknowledged")
         assert update.status == "acknowledged"
 
 

@@ -48,7 +48,7 @@ class LogPreprocessor:
         result = text.lower().strip()
         
         for pattern, replacement in cls.PATTERNS:
-            result = re.sub(pattern, replacement, result)
+            result = re.sub(pattern, replacement, result, flags=re.IGNORECASE)
         
         # Remove multiple spaces
         result = re.sub(r'\s+', ' ', result)
@@ -230,7 +230,7 @@ class LogAnalyzer:
                     best_similarity = similarity
                     best_cluster = label
             
-            predictions.append(best_cluster)
+            predictions.append(int(best_cluster))
         
         return predictions
     
